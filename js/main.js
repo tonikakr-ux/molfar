@@ -16,14 +16,14 @@
       c.addEventListener('mouseenter', function () { if (desktop.matches) open(c); });
       c.addEventListener('focus', function () { open(c); });
     });
-    track.addEventListener('mouseenter', function () { hovered = true; });
-    track.addEventListener('mouseleave', function () { hovered = false; });
-    var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    if (!reduce) timer = setInterval(function () {
-      if (hovered || !desktop.matches || document.hidden) return;
-      var i = cards.findIndex(function (c) { return c.classList.contains('on'); });
-      open(cards[(i + 1) % cards.length]);
-    }, 6000);
+    track.addEventListener('mouseenter', function () { hovered = true; track.classList.add('hovering'); });
+    track.addEventListener('mouseleave', function () { hovered = false; track.classList.remove('hovering'); });
+    /* червона лінія зверху — таймлайн: коли дійшла до кінця, показуємо наступну галузь */
+    track.addEventListener('animationend', function (e) {
+      if (e.animationName !== 'indTimeline' || hovered || !desktop.matches) return;
+      var i = cards.indexOf(e.target);
+      if (i > -1 && e.target.classList.contains('on')) open(cards[(i + 1) % cards.length]);
+    });
   }
 
   /* Технології: таби */

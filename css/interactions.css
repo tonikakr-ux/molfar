@@ -8,7 +8,8 @@
 @media (min-width:1024px){
   .ind-track.js .ind-card{flex:0 0 96px!important;transition:flex-grow .5s cubic-bezier(.4,0,.2,1),flex-basis .5s cubic-bezier(.4,0,.2,1)!important}
   .ind-track.js .ind-card.on{flex:1 1 0!important}
-  .ind-track.js .ind-card.on::before{opacity:1!important}
+  .ind-track.js .ind-card.on::before{opacity:1!important;transform-origin:left;animation:indTimeline 6s linear both}
+  .ind-track.js.hovering .ind-card.on::before{animation:none;transform:none}
   .ind-track.js .ind-card:not(.on)::before{opacity:0!important}
   .ind-track.js .ind-card .ind-body{min-width:0!important}
   .ind-track.js .ind-card.on .ind-body{opacity:1!important;transition-delay:.35s!important}
@@ -24,6 +25,8 @@
   .ind-track.js .ind-card{flex-basis:64px!important}
   .ind-track.js .ind-card.on{flex-basis:0!important}
 }
+
+@keyframes indTimeline{from{transform:scaleX(0)}to{transform:scaleX(1)}}
 
 /* ---------- Хедер ---------- */
 .st-hd header nav a.h6-nv{transition:color .2s;text-decoration:underline;text-decoration-color:transparent;text-underline-offset:4px}
@@ -64,6 +67,7 @@ figure.tc:hover [aria-label="Логотип компанії"]{border-color:#434
 .dd-btn:hover{background:#ebebeb;border-bottom-color:#ebebeb}
 .dd-btn:focus-visible{outline:2px solid #272727;outline-offset:2px}
 .dd.open .dd-btn{background:#ebebeb;border-bottom-color:#e22121}
+.dd-btn > span{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .dd-btn svg{position:absolute;right:16px;top:50%;width:24px;height:24px;margin-top:-12px;transition:transform .2s}
 .dd.open .dd-btn svg{transform:rotate(180deg)}
 .dd-list{display:none;position:absolute;left:0;right:0;top:100%;z-index:20;margin:0;padding:4px 0;list-style:none;background:#ffffff;border:1px solid #c9c9c9;border-top:0}
@@ -93,4 +97,5 @@ details.fq > summary:hover svg{color:#e22121}
 
 @media (prefers-reduced-motion:reduce){
   .ind-track.js .ind-card,.ft-up svg,.dd-btn svg{transition:none!important}
+  .ind-track.js .ind-card.on::before{animation:none!important;transform:none!important}
 }

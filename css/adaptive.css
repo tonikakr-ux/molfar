@@ -8,10 +8,13 @@
    ці правила переїжджають у SCSS-модулі секцій без !important.
    ========================================================================= */
 :root{
-  --pad-x:max(80px, calc((100vw - 1440px) / 2));
+  --z:1; /* масштаб великих екранів (>1920), задає скрипт у <head> */
+  --pad-x:max(80px, calc((100vw / var(--z) - 1440px) / 2));
   --section-padding-y:120px;
   --h2-size:32px;
 }
+/* великі монітори: сторінка масштабується як 1920, а не губиться вузькою колонкою */
+html.zoomed{zoom:var(--z)}
 @media (max-width:1279px){ :root{--pad-x:40px;--section-padding-y:96px} }
 @media (max-width:767px){ :root{--pad-x:20px;--section-padding-y:64px;--h2-size:24px} }
 
@@ -20,6 +23,11 @@ img{max-width:100%}
 .split{max-width:100%}
 .nav-burger{display:none}
 #v2-services h3.ttl{margin:0}
+
+/* декоративні лінії біля статистики й логотипів — до країв екрана */
+.ab-hv [style*="left:-80px"],.pB-row [style*="left:-80px"]{left:calc(-1 * var(--pad-x))!important;right:calc(-1 * var(--pad-x))!important}
+/* сітка технологій — на ширину контейнера (у макеті було 1281px) */
+.tk-grid{width:auto!important}
 
 /* Довгі тексти — body-long (150%) */
 #v2-seo p,#v2-faq details p{line-height:150%!important}
@@ -46,8 +54,6 @@ img{max-width:100%}
   section h2{width:auto!important;max-width:100%!important}
   #v2-about p,.seo-box p{width:auto!important}
 
-  /* декоративні лінії на всю ширину */
-  .ab-hv [style*="left:-80px"],.pB-row [style*="left:-80px"]{left:calc(-1 * var(--pad-x))!important;right:calc(-1 * var(--pad-x))!important}
 
   /* хедер: меню ховається в бургер */
   .st-hd header nav{display:none!important}
@@ -75,12 +81,15 @@ img{max-width:100%}
   /* портфоліо */
   .pf-head{flex-wrap:wrap;padding-bottom:48px!important}
   .pf-head .ey{width:100%!important;padding-top:0!important}
-  .pf-row{height:auto!important;flex-wrap:wrap;row-gap:16px;padding:24px var(--pad-x)!important}
-  .pf-name{width:auto!important;flex:1 1 auto!important}
-  .pf-open{display:none!important}
-  .pf-imgs{position:static!important;flex:0 0 100%;order:3;overflow-x:auto;scrollbar-width:none}
+  /* рядок: назва + «(+)» · теги · стрічка фото, що гортається пальцем і йде до правого краю */
+  .pf-row{display:grid!important;grid-template-columns:minmax(0,1fr) auto;grid-template-areas:"n o" "t t" "i i";align-items:center;row-gap:16px;height:auto!important;padding:24px 0 24px var(--pad-x)!important}
+  .pf-name{grid-area:n;width:auto!important}
+  .pf-open{grid-area:o;display:inline-flex!important;margin:0 var(--pad-x) 0 0!important}
+  .pf-tags{grid-area:t;flex-wrap:wrap}
+  .pf-tags .pf-tag{width:auto!important;padding:0 12px}
+  .pf-imgs{grid-area:i;position:static!important;display:flex!important;gap:8px!important;overflow-x:auto;overscroll-behavior-x:contain;scroll-snap-type:x mandatory;scrollbar-width:none;padding-right:var(--pad-x);-webkit-overflow-scrolling:touch}
   .pf-imgs::-webkit-scrollbar{display:none}
-  .pf-imgs img{height:120px!important;flex:none}
+  .pf-imgs img{height:200px!important;width:auto!important;flex:none;scroll-snap-align:start;-webkit-user-drag:none}
 
   /* квіз */
   #v2-quiz .wrap > div:nth-child(2){grid-template-columns:minmax(0,1fr)!important}
@@ -92,29 +101,43 @@ img{max-width:100%}
   .tk-bar{flex-wrap:wrap}
 
   /* як ми працюємо */
-  .sa-g{height:auto!important;row-gap:48px}
-  .sa-ph{grid-column:1 / -1!important;height:400px!important}
-  .sa-g > div:nth-child(2){grid-column:1 / -1!important;height:auto!important;padding:0!important}
+  .sa-g{height:auto!important}
+  .sa-ph{grid-column:1 / span 5!important;height:auto!important;min-height:400px}
+  .sa-g > div:nth-child(2){grid-column:6 / -1!important;height:auto!important;gap:40px!important}
   .sa-g > div:nth-child(2) > div{height:auto!important;flex:none!important}
 
   /* відгуки: смуга Clutch */
-  #v2-testimonials .wrap > div:nth-child(2){flex-wrap:wrap}
 
   /* партнери */
   #v2-partners > div:first-child{grid-template-columns:minmax(0,1fr)!important;row-gap:24px}
   #v2-partners > a.split{margin-left:0!important}
-  .pB-row{display:grid!important;grid-template-columns:repeat(3,minmax(0,1fr))!important}
+  .pB-row{display:grid!important;grid-template-columns:repeat(3,minmax(0,1fr))!important;gap:1px;background:#434343}
+  #v2-partners .pB-row .pl-tile{background:#141414!important;width:auto!important}
+  #v2-partners .pB-row .pl-tile:hover{background:#1e1e1e!important}
 
   /* форма */
-  .fd > div{grid-column:1 / -1!important}
-  .fd{row-gap:40px}
-  .fd > div:first-child{order:2}
+
+  /* форма: менеджер зліва (ширше), поля справа */
+  .fd > div:first-child{grid-column:1 / span 5!important}
+  .fd > div:nth-child(2){grid-column:6 / -1!important}
+  .fd .split .l{white-space:normal!important;padding:12px 16px!important;line-height:120%}
+  .fd > div:first-child > div:nth-child(2){flex-wrap:wrap;row-gap:12px}
 
   /* футер */
   .ft > div:first-child > div{grid-column:1 / -1!important}
   .ft > div:first-child{row-gap:32px}
   .fl6{grid-template-columns:minmax(0,1fr)!important}
   .fl6 > div:first-child{padding:48px 0!important;border-right:0!important;border-bottom:1px solid #313131}
+}
+
+/* ====================== ШИРОКИЙ ПЛАНШЕТ (1024–1279) ====================== */
+@media (min-width:1024px) and (max-width:1279px){
+  /* колонка мітки вужча: заголовку більше місця */
+  .wrap > div:has(> div > .ey) > div:first-child,
+  #v2-about .wrap:first-child > div:first-child,#v2-faq .wrap > div:first-child,#v2-seo .wrap > div:first-child{width:200px!important;flex:0 0 200px!important}
+  .pf-head .ey{width:200px!important}
+  #v2-partners > div:first-child{grid-template-columns:200px minmax(0,1fr)!important}
+  #v2-partners > a.split{margin-left:220px!important}
 }
 
 /* =========================== ≤1023: вузький планшет =========================== */
@@ -143,6 +166,16 @@ img{max-width:100%}
 
   .tk-grid{grid-template-columns:repeat(4,minmax(0,1fr))!important}
   .rb-stack{display:none!important}
+
+  /* форма: поля в одну колонку */
+  .fd > div:first-child > div:first-child{height:360px!important}
+  .fd form > div[style*="1fr 1fr"]{grid-template-columns:minmax(0,1fr)!important}
+
+  /* смуга Clutch в один ряд */
+  #v2-testimonials .wrap > div:nth-child(2){padding:20px 24px!important;gap:16px!important}
+  #v2-testimonials .wrap > div:nth-child(2) > div:first-child{gap:16px!important}
+  #v2-testimonials .wrap > div:nth-child(2) > a.split{width:240px!important;height:auto!important;min-height:56px}
+  #v2-testimonials .wrap > div:nth-child(2) > a.split .l{width:auto!important;white-space:normal!important;flex-wrap:wrap;row-gap:0!important;padding:8px 16px!important}
 }
 
 /* ================================ МОБАЙЛ (<768) ================================ */
@@ -182,8 +215,7 @@ img{max-width:100%}
 
   /* портфоліо */
   .pf-head{padding-bottom:32px!important}
-  .pf-imgs img{height:96px!important}
-  .pf-tags .pf-tag{width:auto!important;padding:0 12px}
+  .pf-imgs img{height:160px!important}
 
   /* галузі */
   .ind-track .ind-card,.ind-track .ind-card.on,.ind-track .ind-card:hover,.ind-track:hover .ind-card.on:not(:hover){flex:0 0 86%!important;height:400px}
@@ -207,8 +239,9 @@ img{max-width:100%}
 
   /* як ми працюємо */
   #v2-process-compact{padding:var(--section-padding-y) 0!important}
-  .sa-ph{height:240px!important}
-  .sa-g > div:nth-child(2){gap:32px!important}
+  .sa-g{row-gap:48px}
+  .sa-ph{grid-column:1 / -1!important;height:240px!important;min-height:0}
+  .sa-g > div:nth-child(2){grid-column:1 / -1!important;gap:32px!important;padding:0!important}
 
   /* відгуки */
   #v2-testimonials .wrap > div:nth-child(2){flex-direction:column;align-items:stretch!important;padding:20px!important}
@@ -223,7 +256,9 @@ img{max-width:100%}
   .pl-tile img{max-width:70%;height:auto!important;max-height:32px}
 
   /* форма */
-  .fd{padding:20px!important;margin:0 var(--pad-x)!important}
+  .fd > div{grid-column:1 / -1!important}
+  .fd{row-gap:40px;padding:20px!important;margin:0 var(--pad-x)!important}
+  .fd > div:first-child{order:2}
   .fd > div:first-child > div:first-child{height:320px!important}
   .fd form > div[style*="1fr 1fr"]{grid-template-columns:minmax(0,1fr)!important}
 

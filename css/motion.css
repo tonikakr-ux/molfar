@@ -50,8 +50,8 @@
 .mo .st h1.in > span{animation:moFade var(--mo-el) var(--mo-out) .35s both!important}
 .mo .st [data-mo="slide"].in{animation:moSlideL var(--mo-section) var(--mo-ease) .5s both!important}
 .mo .in.mo-done{animation:none!important;clip-path:none!important;opacity:1!important}
-.mo .in.mo-done > span{animation:none!important;opacity:1!important}
-.mo .st .in.mo-done,.mo .st .in.mo-done > span{animation:none!important}
+.mo h1.in.mo-done > span,.mo h2.in.mo-done > span{animation:none!important;opacity:1!important}
+.mo .st .in.mo-done,.mo .st h1.in.mo-done > span{animation:none!important}
 
 /* ---- статистика: лічильник + червона лінія-прогрес ---- */
 .ab-hv [style*="min-height:240px"]{position:relative}
