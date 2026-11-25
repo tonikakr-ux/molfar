@@ -5,7 +5,7 @@
 
 /* ---------- Галузі: стан керує JS (.on), без «провалів» між картками ---------- */
 .ind-lb{backdrop-filter:none!important;-webkit-backdrop-filter:none!important}
-@media (min-width:1024px){
+@media (min-width:900px){
   .ind-track.js .ind-card{flex:0 0 96px!important;transition:flex-grow .5s cubic-bezier(.4,0,.2,1),flex-basis .5s cubic-bezier(.4,0,.2,1)!important}
   .ind-track.js .ind-card.on{flex:1 1 0!important}
   .ind-track.js .ind-card.on::before{opacity:1!important;transform-origin:left;animation:indTimeline 6s linear both}
@@ -21,7 +21,7 @@
   .ind-track.js .ind-card:not(.on) .ind-v{transform:translateX(-50%) rotate(180deg)!important;color:#ffffff!important}
   .ind-track.js .ind-card:not(.on):hover .ind-v{color:#e22121!important}
 }
-@media (min-width:1024px) and (max-width:1439px){
+@media (min-width:900px) and (max-width:1439px){
   .ind-track.js .ind-card{flex-basis:64px!important}
   .ind-track.js .ind-card.on{flex-basis:0!important}
 }

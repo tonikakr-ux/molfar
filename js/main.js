@@ -3,7 +3,7 @@
 (function () {
   var $ = function (s, r) { return (r || document).querySelector(s); };
   var $$ = function (s, r) { return Array.prototype.slice.call((r || document).querySelectorAll(s)); };
-  var desktop = window.matchMedia('(min-width: 1024px)');
+  var desktop = window.matchMedia('(min-width: 900px)');
 
   /* Галузі: відкривається картка під курсором; без курсора — автоперемикання */
   var track = $('.ind-track');

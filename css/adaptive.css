@@ -57,12 +57,13 @@ img{max-width:100%}
 
   /* хедер: меню ховається в бургер */
   .st-hd header nav{display:none!important}
-  .nav-burger{display:flex;align-items:center;justify-content:center;width:48px;height:48px;margin-left:8px;background:#ffffff;color:#272727;border:0;cursor:pointer;flex:none}
+  .nav-burger{display:flex;align-items:center;justify-content:center;width:50px;height:50px;margin-left:8px;background:#262626;color:#ffffff;border:1px solid #373737;box-sizing:border-box;cursor:pointer;flex:none;transition:background .2s,color .2s}
+  .nav-burger:hover,body.nav-open .nav-burger{background:#ffffff;color:#272727}
   .nav-burger svg{display:block;width:24px;height:24px}
   body.nav-open .st-hd header nav{display:flex!important;position:absolute;left:0;right:0;top:100%;flex-direction:column;gap:0!important;padding:8px var(--pad-x) 24px;background:#141414;z-index:30}
   body.nav-open .st-hd header nav .h6-nv{height:auto!important;padding:16px 0;border-bottom:1px solid #303030;font-size:16px!important}
-  .st > div[style*="bottom:76px"]{right:var(--pad-x);width:auto!important;bottom:168px!important}
-  .st > div[style*="bottom: 57px"]{left:var(--pad-x)!important;right:auto!important;bottom:40px!important;max-width:calc(100% - 2 * var(--pad-x))}
+  .st > div[style*="bottom:76px"]{width:calc(100% - 2 * var(--pad-x) - 418px - 40px)!important;bottom:64px!important}
+  .st > div[style*="bottom: 57px"]{right:var(--pad-x)!important;bottom:56px!important}
   .st-hd header > a:first-child{margin-right:auto}
   .st h1{width:auto!important}
   .st h1 br{display:none}
@@ -133,11 +134,14 @@ img{max-width:100%}
 /* ====================== ШИРОКИЙ ПЛАНШЕТ (1024–1279) ====================== */
 @media (min-width:1024px) and (max-width:1279px){
   /* колонка мітки вужча: заголовку більше місця */
-  .wrap > div:has(> div > .ey) > div:first-child,
+  .wrap:not(.sa-g) > div:has(> div > .ey) > div:first-child,
   #v2-about .wrap:first-child > div:first-child,#v2-faq .wrap > div:first-child,#v2-seo .wrap > div:first-child{width:200px!important;flex:0 0 200px!important}
   .pf-head .ey{width:200px!important}
   #v2-partners > div:first-child{grid-template-columns:200px minmax(0,1fr)!important}
   #v2-partners > a.split{margin-left:220px!important}
+  /* «Як ми працюємо»: фото вужче, щоб заголовок став в один рядок */
+  .sa-ph{grid-column:1 / span 4!important}
+  .sa-g > div:nth-child(2){grid-column:5 / -1!important}
 }
 
 /* =========================== ≤1023: вузький планшет =========================== */
@@ -151,12 +155,6 @@ img{max-width:100%}
   .wrap:not(.sa-g) > div:has(> div > .ey) > h2{flex:1 1 0!important;min-width:0}
 
   /* галузі → горизонтальна стрічка карток */
-  .ind-track{height:auto!important;overflow-x:auto;scroll-snap-type:x mandatory;margin:0 calc(-1 * var(--pad-x));padding:0 var(--pad-x);scroll-padding:0 var(--pad-x);scrollbar-width:none}
-  .ind-track::-webkit-scrollbar{display:none}
-  .ind-track .ind-card,.ind-track .ind-card.on,.ind-track .ind-card:hover,.ind-track:hover .ind-card.on:not(:hover){flex:0 0 46%!important;height:440px;scroll-snap-align:start}
-  .ind-card .ind-body{opacity:1!important;min-width:0!important}
-  .ind-card .ind-v,.ind-card .ind-no{display:none!important}
-  .ind-card::before{opacity:0!important}
 
   /* відгуки → стрічка */
   .tc-grid{display:grid!important;grid-template-columns:none!important;grid-auto-flow:column;grid-auto-columns:46%;gap:4px;overflow-x:auto;scroll-snap-type:x mandatory;margin:0 calc(-1 * var(--pad-x));padding:0 var(--pad-x);scroll-padding:0 var(--pad-x);scrollbar-width:none}
@@ -165,7 +163,14 @@ img{max-width:100%}
   .tc-col figure.tc{min-height:0!important}
 
   .tk-grid{grid-template-columns:repeat(4,minmax(0,1fr))!important}
-  .rb-stack{display:none!important}
+
+  /* перший екран: заголовок, під ним плашка Clutch */
+  .st > div[style*="bottom:76px"]{right:var(--pad-x);width:auto!important;bottom:168px!important}
+  .st > div[style*="bottom: 57px"]{left:var(--pad-x)!important;right:auto!important;bottom:40px!important;max-width:calc(100% - 2 * var(--pad-x))}
+  /* послуги: фото зверху, все в одну колонку (як на мобайлі) */
+  .sx-open{grid-template-columns:minmax(0,1fr)!important;row-gap:20px}
+  .sx-open > *{grid-column:1 / -1!important}
+  .sx-ph2{min-height:240px!important}
 
   /* форма: поля в одну колонку */
   .fd > div:first-child > div:first-child{height:360px!important}
@@ -176,6 +181,16 @@ img{max-width:100%}
   #v2-testimonials .wrap > div:nth-child(2) > div:first-child{gap:16px!important}
   #v2-testimonials .wrap > div:nth-child(2) > a.split{width:240px!important;height:auto!important;min-height:56px}
   #v2-testimonials .wrap > div:nth-child(2) > a.split .l{width:auto!important;white-space:normal!important;flex-wrap:wrap;row-gap:0!important;padding:8px 16px!important}
+}
+
+/* галузі — стрічка карток лише на вузьких екранах (на великих планшетах як на десктопі) */
+@media (max-width:899px){
+  .ind-track{height:auto!important;overflow-x:auto;scroll-snap-type:x mandatory;margin:0 calc(-1 * var(--pad-x));padding:0 var(--pad-x);scroll-padding:0 var(--pad-x);scrollbar-width:none}
+  .ind-track::-webkit-scrollbar{display:none}
+  .ind-track .ind-card,.ind-track .ind-card.on,.ind-track .ind-card:hover,.ind-track:hover .ind-card.on:not(:hover){flex:0 0 46%!important;height:440px;scroll-snap-align:start}
+  .ind-card .ind-body{opacity:1!important;min-width:0!important}
+  .ind-card .ind-v,.ind-card .ind-no{display:none!important}
+  .ind-card::before{opacity:0!important}
 }
 
 /* ================================ МОБАЙЛ (<768) ================================ */
@@ -256,7 +271,7 @@ img{max-width:100%}
   .pl-tile img{max-width:70%;height:auto!important;max-height:32px}
 
   /* форма */
-  .fd > div{grid-column:1 / -1!important}
+  .fd > div,.fd > div:first-child,.fd > div:nth-child(2){grid-column:1 / -1!important}
   .fd{row-gap:40px;padding:20px!important;margin:0 var(--pad-x)!important}
   .fd > div:first-child{order:2}
   .fd > div:first-child > div:first-child{height:320px!important}
