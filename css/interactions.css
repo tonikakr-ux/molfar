@@ -1,0 +1,96 @@
+/* =========================================================================
+   Molfar — ховери та інтерактив головної
+   Кольори — з токенів MOLFAR 2.0. Тіней немає, активний стан — червона лінія.
+   ========================================================================= */
+
+/* ---------- Галузі: стан керує JS (.on), без «провалів» між картками ---------- */
+.ind-lb{backdrop-filter:none!important;-webkit-backdrop-filter:none!important}
+@media (min-width:1024px){
+  .ind-track.js .ind-card{flex:0 0 96px!important;transition:flex-grow .5s cubic-bezier(.4,0,.2,1),flex-basis .5s cubic-bezier(.4,0,.2,1)!important}
+  .ind-track.js .ind-card.on{flex:1 1 0!important}
+  .ind-track.js .ind-card.on::before{opacity:1!important}
+  .ind-track.js .ind-card:not(.on)::before{opacity:0!important}
+  .ind-track.js .ind-card .ind-body{min-width:0!important}
+  .ind-track.js .ind-card.on .ind-body{opacity:1!important;transition-delay:.35s!important}
+  .ind-track.js .ind-card:not(.on) .ind-body{opacity:0!important;transition-delay:0s!important}
+  .ind-track.js .ind-card.on .ind-bg::after{background:linear-gradient(#000000b3,#00000026 45%,#000000b3)!important}
+  .ind-track.js .ind-card:not(.on) .ind-bg::after{background:#000000bf!important}
+  .ind-track.js .ind-card.on .ind-v,.ind-track.js .ind-card.on .ind-no{opacity:0!important}
+  .ind-track.js .ind-card:not(.on) .ind-v,.ind-track.js .ind-card:not(.on) .ind-no{opacity:1!important;left:50%!important;right:auto!important;transform:translateX(-50%)!important;color:#8a8a8a!important}
+  .ind-track.js .ind-card:not(.on) .ind-v{transform:translateX(-50%) rotate(180deg)!important;color:#ffffff!important}
+  .ind-track.js .ind-card:not(.on):hover .ind-v{color:#e22121!important}
+}
+@media (min-width:1024px) and (max-width:1439px){
+  .ind-track.js .ind-card{flex-basis:64px!important}
+  .ind-track.js .ind-card.on{flex-basis:0!important}
+}
+
+/* ---------- Хедер ---------- */
+.st-hd header nav a.h6-nv{transition:color .2s;text-decoration:underline;text-decoration-color:transparent;text-underline-offset:4px}
+.st-hd header nav a.h6-nv:hover{color:#ffffff!important;text-decoration:underline #e22121 1px!important;text-underline-offset:4px!important}
+.st-hd header > div > div > a{transition:background .2s,color .2s}
+.st-hd header > div > div > a:hover{background:#ffffff;color:#272727!important}
+
+/* плашка Clutch на першому екрані */
+.st a[href="https://clutch.co"]{transition:background .2s,border-color .2s}
+.st a[href="https://clutch.co"]:hover{background:#303030!important;border-color:#575757!important}
+
+/* ---------- Послуги ---------- */
+#v2-services details > summary{cursor:pointer;transition:background .2s}
+#v2-services details:not([open]) > summary:hover{background:#fafafa}
+#v2-services details > summary svg{transition:color .2s}
+#v2-services details > summary:hover svg{color:#e22121}
+
+/* ---------- Технології та «Як ми працюємо» ---------- */
+.sa-row{transition:background .2s}
+.sa-row:not(.on):hover{background:#1e1e1e}
+.sa-row:not(.on):hover .sa-t{color:#ffffff!important}
+
+/* ---------- Відгуки: реверс як у портфоліо ---------- */
+figure.tc{cursor:default}
+figure.tc:hover{background:#141414!important;color:#ffffff;border-top-color:#e22121!important}
+figure.tc:hover b,figure.tc:hover p,figure.tc:hover blockquote{color:#ffffff!important}
+figure.tc:hover .mono{color:#b8b8b8!important}
+figure.tc:hover [aria-label="Логотип компанії"]{border-color:#434343!important;color:#8a8a8a!important}
+
+/* ---------- Форма: соцмережі менеджера ---------- */
+.sm-btn{transition:background .2s,color .2s}
+.sm-btn:hover{background:#272727!important;color:#ffffff!important}
+
+/* фірмовий дропдаун «Як з вами зв'язатися» */
+.dd{position:relative}
+.dd select{position:absolute!important;width:1px!important;height:1px!important;opacity:0;pointer-events:none}
+.dd-btn{all:unset;box-sizing:border-box;width:100%;height:52px;padding:0 48px 0 16px;display:flex;align-items:center;background:#f1f1f1;color:#272727;font-size:16px;font-weight:300;border-bottom:2px solid #f1f1f1;cursor:pointer;position:relative;transition:background .2s,border-color .2s}
+.dd-btn:hover{background:#ebebeb;border-bottom-color:#ebebeb}
+.dd-btn:focus-visible{outline:2px solid #272727;outline-offset:2px}
+.dd.open .dd-btn{background:#ebebeb;border-bottom-color:#e22121}
+.dd-btn svg{position:absolute;right:16px;top:50%;width:24px;height:24px;margin-top:-12px;transition:transform .2s}
+.dd.open .dd-btn svg{transform:rotate(180deg)}
+.dd-list{display:none;position:absolute;left:0;right:0;top:100%;z-index:20;margin:0;padding:4px 0;list-style:none;background:#ffffff;border:1px solid #c9c9c9;border-top:0}
+.dd.open .dd-list{display:block}
+.dd-opt{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:16px;font-size:16px;font-weight:300;color:#272727;cursor:pointer}
+.dd-opt:hover,.dd-opt.hl{background:#f1f1f1}
+.dd-opt[aria-selected="true"]{box-shadow:inset 3px 0 0 #e22121;font-weight:500}
+.dd-opt[aria-selected="true"]::after{content:"";width:8px;height:8px;background:#e22121;flex:none}
+
+/* ---------- FAQ ---------- */
+details.fq > summary{cursor:pointer;transition:background .2s}
+details.fq:not([open]) > summary:hover{background:#fafafa}
+details.fq .fq-n{transition:background .2s,color .2s}
+details.fq:not([open]):hover .fq-n{background:#d6d6d6;color:#141414}
+details.fq > summary svg{transition:color .2s}
+details.fq > summary:hover svg{color:#e22121}
+
+/* ---------- SEO «Читати більше» ---------- */
+.seo-btn{transition:color .2s,border-color .2s}
+.seo-btn:hover{color:#e22121!important;border-bottom-color:#e22121!important}
+
+/* ---------- Футер: стрілка вгору ---------- */
+.ft-up{transition:background .2s}
+.ft-up svg{transition:transform .2s}
+.ft-up:hover{background:#c01b1b!important}
+.ft-up:hover svg{transform:translateY(-4px)}
+
+@media (prefers-reduced-motion:reduce){
+  .ind-track.js .ind-card,.ft-up svg,.dd-btn svg{transition:none!important}
+}

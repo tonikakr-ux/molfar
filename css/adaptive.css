@@ -1,0 +1,247 @@
+/* =========================================================================
+   Molfar — адаптив головної
+   Шар поверх макета з Claude Design. Брейкпоінти:
+     ≥1280 — десктоп (1280–1920, контейнер до 1440)
+     768–1279 — планшет (окремі правила ще й для ≤1023)
+     <768 — мобайл (макет під 375–390)
+   !important тут тимчасовий: макет має інлайн-стилі. У Next.js
+   ці правила переїжджають у SCSS-модулі секцій без !important.
+   ========================================================================= */
+:root{
+  --pad-x:max(80px, calc((100vw - 1440px) / 2));
+  --section-padding-y:120px;
+  --h2-size:32px;
+}
+@media (max-width:1279px){ :root{--pad-x:40px;--section-padding-y:96px} }
+@media (max-width:767px){ :root{--pad-x:20px;--section-padding-y:64px;--h2-size:24px} }
+
+html,body{overflow-x:clip}
+img{max-width:100%}
+.split{max-width:100%}
+.nav-burger{display:none}
+#v2-services h3.ttl{margin:0}
+
+/* Довгі тексти — body-long (150%) */
+#v2-seo p,#v2-faq details p{line-height:150%!important}
+
+/* ---------- ≥1600: колонка 1440 і обмеження рядка (колишній 1920.html) ---------- */
+@media (min-width:1600px){
+  section h2{max-width:1040px}
+  #v2-about h2{max-width:1200px}
+  #v2-about p{width:auto!important;max-width:720px}
+  #v2-seo p,#v2-seo li{max-width:760px}
+  #v2-faq details p{max-width:880px}
+}
+
+/* =========================== ПЛАНШЕТ І МЕНШЕ (≤1279) =========================== */
+@media (max-width:1279px){
+  /* вертикальні відступи секцій */
+  #v2-about,#v2-industries,#v2-faq,#v2-seo,#v2-form{padding-top:var(--section-padding-y)!important}
+  #v2-services,#v2-industries,#v2-quiz,#v2-seo,#v2-tech{padding-bottom:var(--section-padding-y)!important}
+  #v2-services{padding-top:calc(var(--section-padding-y) / 2)!important}
+  #v2-partners{padding-top:var(--section-padding-y)!important;padding-bottom:var(--section-padding-y)!important}
+  #v2-process-compact{margin-bottom:var(--section-padding-y)!important;height:auto!important}
+
+  /* заголовки з фіксованою шириною → гнучкі */
+  section h2{width:auto!important;max-width:100%!important}
+  #v2-about p,.seo-box p{width:auto!important}
+
+  /* декоративні лінії на всю ширину */
+  .ab-hv [style*="left:-80px"],.pB-row [style*="left:-80px"]{left:calc(-1 * var(--pad-x))!important;right:calc(-1 * var(--pad-x))!important}
+
+  /* хедер: меню ховається в бургер */
+  .st-hd header nav{display:none!important}
+  .nav-burger{display:flex;align-items:center;justify-content:center;width:48px;height:48px;margin-left:8px;background:#ffffff;color:#272727;border:0;cursor:pointer;flex:none}
+  .nav-burger svg{display:block;width:24px;height:24px}
+  body.nav-open .st-hd header nav{display:flex!important;position:absolute;left:0;right:0;top:100%;flex-direction:column;gap:0!important;padding:8px var(--pad-x) 24px;background:#141414;z-index:30}
+  body.nav-open .st-hd header nav .h6-nv{height:auto!important;padding:16px 0;border-bottom:1px solid #303030;font-size:16px!important}
+  .st > div[style*="bottom:76px"]{right:var(--pad-x);width:auto!important;bottom:168px!important}
+  .st > div[style*="bottom: 57px"]{left:var(--pad-x)!important;right:auto!important;bottom:40px!important;max-width:calc(100% - 2 * var(--pad-x))}
+  .st-hd header > a:first-child{margin-right:auto}
+  .st h1{width:auto!important}
+  .st h1 br{display:none}
+  .st{overflow:visible!important}
+  .st .pst,.st .sh{overflow:hidden}
+
+  /* about */
+  #v2-about .wrap > div:nth-child(2){flex:1 1 auto!important;width:auto!important;margin-left:0!important}
+  .ab-hv [style*="repeat(4"]{grid-template-columns:repeat(2,minmax(0,1fr))!important}
+
+  /* сервіси */
+  #v2-services .wrap{height:auto!important}
+  .sx-list{grid-template-columns:minmax(0,1fr)!important}
+  .sx-list li:nth-last-child(2) a{border-bottom:0!important}
+
+  /* портфоліо */
+  .pf-head{flex-wrap:wrap;padding-bottom:48px!important}
+  .pf-head .ey{width:100%!important;padding-top:0!important}
+  .pf-row{height:auto!important;flex-wrap:wrap;row-gap:16px;padding:24px var(--pad-x)!important}
+  .pf-name{width:auto!important;flex:1 1 auto!important}
+  .pf-open{display:none!important}
+  .pf-imgs{position:static!important;flex:0 0 100%;order:3;overflow-x:auto;scrollbar-width:none}
+  .pf-imgs::-webkit-scrollbar{display:none}
+  .pf-imgs img{height:120px!important;flex:none}
+
+  /* квіз */
+  #v2-quiz .wrap > div:nth-child(2){grid-template-columns:minmax(0,1fr)!important}
+  #v2-quiz aside{position:static!important;min-height:0!important}
+  #v2-quiz .wrap > div:nth-child(2) > div{min-height:0!important}
+
+  /* технології */
+  .tk-grid{width:auto!important}
+  .tk-bar{flex-wrap:wrap}
+
+  /* як ми працюємо */
+  .sa-g{height:auto!important;row-gap:48px}
+  .sa-ph{grid-column:1 / -1!important;height:400px!important}
+  .sa-g > div:nth-child(2){grid-column:1 / -1!important;height:auto!important;padding:0!important}
+  .sa-g > div:nth-child(2) > div{height:auto!important;flex:none!important}
+
+  /* відгуки: смуга Clutch */
+  #v2-testimonials .wrap > div:nth-child(2){flex-wrap:wrap}
+
+  /* партнери */
+  #v2-partners > div:first-child{grid-template-columns:minmax(0,1fr)!important;row-gap:24px}
+  #v2-partners > a.split{margin-left:0!important}
+  .pB-row{display:grid!important;grid-template-columns:repeat(3,minmax(0,1fr))!important}
+
+  /* форма */
+  .fd > div{grid-column:1 / -1!important}
+  .fd{row-gap:40px}
+  .fd > div:first-child{order:2}
+
+  /* футер */
+  .ft > div:first-child > div{grid-column:1 / -1!important}
+  .ft > div:first-child{row-gap:32px}
+  .fl6{grid-template-columns:minmax(0,1fr)!important}
+  .fl6 > div:first-child{padding:48px 0!important;border-right:0!important;border-bottom:1px solid #313131}
+}
+
+/* =========================== ≤1023: вузький планшет =========================== */
+@media (max-width:1023px){
+  /* шапки секцій «мітка | заголовок | кнопка» → у стовпчик */
+  .wrap:not(.sa-g) > div:has(> div > .ey),
+  #v2-faq .wrap,#v2-seo .wrap,#v2-about .wrap:first-child{flex-wrap:wrap!important;row-gap:24px!important}
+  .wrap:not(.sa-g) > div:has(> div > .ey) > div:first-child,
+  #v2-faq .wrap > div:first-child,#v2-seo .wrap > div:first-child,#v2-about .wrap:first-child > div:first-child{width:100%!important;flex:0 0 100%!important}
+  #v2-faq .wrap > div:nth-child(2),#v2-seo .wrap > div:nth-child(2){flex:1 1 100%!important;max-width:100%!important}
+  .wrap:not(.sa-g) > div:has(> div > .ey) > h2{flex:1 1 0!important;min-width:0}
+
+  /* галузі → горизонтальна стрічка карток */
+  .ind-track{height:auto!important;overflow-x:auto;scroll-snap-type:x mandatory;margin:0 calc(-1 * var(--pad-x));padding:0 var(--pad-x);scroll-padding:0 var(--pad-x);scrollbar-width:none}
+  .ind-track::-webkit-scrollbar{display:none}
+  .ind-track .ind-card,.ind-track .ind-card.on,.ind-track .ind-card:hover,.ind-track:hover .ind-card.on:not(:hover){flex:0 0 46%!important;height:440px;scroll-snap-align:start}
+  .ind-card .ind-body{opacity:1!important;min-width:0!important}
+  .ind-card .ind-v,.ind-card .ind-no{display:none!important}
+  .ind-card::before{opacity:0!important}
+
+  /* відгуки → стрічка */
+  .tc-grid{display:grid!important;grid-template-columns:none!important;grid-auto-flow:column;grid-auto-columns:46%;gap:4px;overflow-x:auto;scroll-snap-type:x mandatory;margin:0 calc(-1 * var(--pad-x));padding:0 var(--pad-x);scroll-padding:0 var(--pad-x);scrollbar-width:none}
+  .tc-grid::-webkit-scrollbar{display:none}
+  .tc-col{height:auto!important;scroll-snap-align:start}
+  .tc-col figure.tc{min-height:0!important}
+
+  .tk-grid{grid-template-columns:repeat(4,minmax(0,1fr))!important}
+  .rb-stack{display:none!important}
+}
+
+/* ================================ МОБАЙЛ (<768) ================================ */
+@media (max-width:767px){
+  section h2,.pf-h2{font-size:var(--h2-size)!important}
+  .wrap:not(.sa-g) > div:has(> div > .ey) > h2{flex:1 1 100%!important}
+  .split{width:100%!important;height:auto!important;min-height:56px}
+  .split .l{white-space:normal!important;flex-wrap:wrap;row-gap:0!important;padding:16px 20px!important}
+  .split .t{width:56px!important}
+
+  /* хедер + перший екран */
+  .st-hd header{height:72px!important}
+  .st-hd header > a:first-child{width:auto!important}
+  .st-hd header > a:first-child img{height:28px!important}
+  .st-hd header > div{display:none!important}
+  .nav-burger{margin-left:auto}
+  .st{height:640px!important}
+  .st .pst,.st .sh{height:100%!important}
+  .st > div[style*="bottom:76px"]{left:var(--pad-x)!important;right:var(--pad-x);width:auto!important;bottom:168px!important}
+  .st h1{width:auto!important;font-size:32px!important}
+  .st h1 br{display:none}
+  .st > div[style*="bottom: 57px"]{left:var(--pad-x)!important;right:var(--pad-x)!important;bottom:24px!important;width:auto!important}
+  .st > div[style*="bottom: 57px"] a{padding:12px 16px!important;gap:12px!important}
+  .rb-stack{display:none!important}
+
+  /* about / статистика */
+  .ab-hv [style*="repeat(4"] > div[style*="min-height:240px"]{padding:20px!important;gap:24px!important;min-height:0!important}
+  .ab-hv [style*="repeat(4"] b{font-size:48px!important}
+  .ab-hv [style*="repeat(4"] img{height:24px!important;width:auto!important}
+
+  /* сервіси */
+  #v2-services summary{padding:20px!important;gap:16px!important}
+  #v2-services .ttl{font-size:20px!important}
+  .sx-open{grid-template-columns:minmax(0,1fr)!important;row-gap:20px;padding:0 20px 20px!important}
+  .sx-open > *{grid-column:1 / -1!important}
+  .sx-ph2{min-height:180px!important}
+
+  /* портфоліо */
+  .pf-head{padding-bottom:32px!important}
+  .pf-imgs img{height:96px!important}
+  .pf-tags .pf-tag{width:auto!important;padding:0 12px}
+
+  /* галузі */
+  .ind-track .ind-card,.ind-track .ind-card.on,.ind-track .ind-card:hover,.ind-track:hover .ind-card.on:not(:hover){flex:0 0 86%!important;height:400px}
+  .ind-card .ind-body{left:20px!important;right:20px!important;top:20px!important;bottom:20px!important}
+  .ind-card .ind-s{font-size:20px!important;width:auto!important}
+
+  /* квіз */
+  #v2-quiz .wrap > div:nth-child(2) > div{padding:20px!important;gap:24px!important}
+  #v2-quiz .wrap > div:nth-child(2) > div > div[style*="1fr 1fr"]{grid-template-columns:minmax(0,1fr)!important}
+  #v2-quiz aside{padding:20px!important}
+  .qz-next{width:auto!important;flex:1;min-height:52px}
+  #v2-quiz h3{font-size:20px!important}
+
+  /* технології */
+  .tk-tabs{max-width:100%;overflow-x:auto;scrollbar-width:none}
+  .tk-tabs::-webkit-scrollbar{display:none}
+  .tk-tabs .tc-tab{flex:none;padding:0 12px!important}
+  .tk-grid{grid-template-columns:repeat(2,minmax(0,1fr))!important}
+  .ai-row{flex-direction:column;align-items:flex-start!important;gap:16px!important}
+  .ai-row .mq2{width:100%;flex:none}
+
+  /* як ми працюємо */
+  #v2-process-compact{padding:var(--section-padding-y) 0!important}
+  .sa-ph{height:240px!important}
+  .sa-g > div:nth-child(2){gap:32px!important}
+
+  /* відгуки */
+  #v2-testimonials .wrap > div:nth-child(2){flex-direction:column;align-items:stretch!important;padding:20px!important}
+  #v2-testimonials .wrap > div:nth-child(2) > div:first-child{gap:16px!important;flex-wrap:wrap}
+  #v2-testimonials .wrap > div:nth-child(2) > div:first-child > span{display:none}
+  .tc-grid{grid-auto-columns:86%}
+  .tc-col figure.tc{padding:24px!important}
+
+  /* партнери */
+  .pB-row{grid-template-columns:repeat(2,minmax(0,1fr))!important}
+  .pl-tile{width:auto!important;height:96px!important}
+  .pl-tile img{max-width:70%;height:auto!important;max-height:32px}
+
+  /* форма */
+  .fd{padding:20px!important;margin:0 var(--pad-x)!important}
+  .fd > div:first-child > div:first-child{height:320px!important}
+  .fd form > div[style*="1fr 1fr"]{grid-template-columns:minmax(0,1fr)!important}
+
+  /* FAQ */
+  #v2-faq .wrap > div:nth-child(2) > div:first-child{flex-wrap:wrap}
+  #v2-faq details summary{padding:16px!important;gap:16px!important}
+  #v2-faq details p{padding:0 16px 16px!important}
+  #v2-faq details summary h3,#v2-faq details summary .up{font-size:16px!important}
+
+  /* футер */
+  .ft > div:first-child{padding-top:var(--section-padding-y)!important;padding-bottom:48px!important}
+  .ft form.qf{flex-direction:column}
+  .ft form.qf input{flex:none;width:100%}
+  .ft form.qf .split{width:100%!important;flex:none}
+  .fl6 > div:nth-child(2){grid-template-columns:repeat(2,minmax(0,1fr))!important}
+  .fl6 > div:nth-child(2) > div{padding-bottom:32px!important}
+  .fl6 .mono.lb{padding:0 16px!important}
+  .fl6 > div:nth-child(2) ul{padding:0 16px!important}
+  .ft-bot{flex-wrap:wrap;row-gap:16px;padding:24px var(--pad-x)!important}
+  .ft-bot > div{flex-wrap:wrap;row-gap:12px}
+}

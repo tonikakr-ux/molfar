@@ -1,0 +1,85 @@
+/* =========================================================================
+   Molfar — система руху «Точність»
+   Одна крива, три темпи, рух лише по осях і з маски, червоний — останнім.
+   Клас .mo на <html> вмикає приховані стартові стани (без JS усе видно одразу).
+   ========================================================================= */
+:root{
+  --mo-ease:cubic-bezier(.7,0,.2,1);
+  --mo-out:cubic-bezier(.2,.7,.2,1);
+  --mo-micro:.25s;
+  --mo-el:.45s;
+  --mo-section:.7s;
+  --mo-rise:24px;
+}
+@media (max-width:767px){ :root{--mo-rise:16px} }
+
+@keyframes moRise{from{opacity:0;transform:translateY(var(--mo-rise))}to{opacity:1;transform:none}}
+@keyframes moUp{from{clip-path:inset(100% 0 0 0);transform:translateY(12px)}to{clip-path:inset(0 0 0 0);transform:none}}
+@keyframes moWipe{from{clip-path:inset(0 100% 0 0)}to{clip-path:inset(0 0 0 0)}}
+@keyframes moShutter{from{clip-path:inset(100% 0 0 0)}to{clip-path:inset(0 0 0 0)}}
+@keyframes moFade{from{opacity:0}to{opacity:1}}
+@keyframes moSlideL{from{opacity:0;transform:translateX(24px)}to{opacity:1;transform:none}}
+
+/* ---- що анімується ---- */
+/* мітки секцій: шторка зліва направо — червоний квадрат з'являється першим */
+.mo .ey{clip-path:inset(0 100% 0 0)}
+.mo .ey.in{animation:moWipe var(--mo-el) var(--mo-ease) both}
+/* заголовки: підйом з маски, сіра частина — з паузою */
+.mo section h2,.mo .st h1{clip-path:inset(100% 0 0 0)}
+.mo section h2.in,.mo .st h1.in{animation:moUp var(--mo-section) var(--mo-ease) both}
+.mo section h2 > span,.mo .st h1 > span{opacity:0}
+.mo section h2.in > span,.mo .st h1.in > span{animation:moFade var(--mo-el) var(--mo-out) both;animation-delay:calc(var(--d,0s) + .35s)}
+/* блоки й картки: короткий підйом, по черзі */
+.mo [data-mo="rise"]{opacity:0}
+.mo [data-mo="rise"].in{animation:moRise var(--mo-section) var(--mo-ease) both}
+/* фото: шторка знизу */
+.mo [data-mo="photo"]{clip-path:inset(100% 0 0 0)}
+.mo [data-mo="photo"].in{animation:moShutter .9s var(--mo-ease) both}
+/* стрічки портфоліо: шторка зліва */
+.mo [data-mo="wipe"]{clip-path:inset(0 100% 0 0)}
+.mo [data-mo="wipe"].in{animation:moWipe var(--mo-section) var(--mo-ease) both}
+/* плашка Clutch на першому екрані */
+.mo [data-mo="slide"]{opacity:0}
+.mo [data-mo="slide"].in{animation:moSlideL var(--mo-section) var(--mo-ease) both}
+.mo-d1{animation-delay:.07s!important}.mo-d2{animation-delay:.14s!important}.mo-d3{animation-delay:.21s!important}
+.mo-d4{animation-delay:.28s!important}.mo-d5{animation-delay:.35s!important}.mo-d6{animation-delay:.42s!important}
+.st a[data-mo="slide"]{animation-delay:.5s!important}
+.mo-stat{box-shadow:none!important}
+/* перший екран: макет вимикав анімацію в .st — повертаємо лише нашу */
+.mo .st h1.in{animation:moUp var(--mo-section) var(--mo-ease) both!important}
+.mo .st h1.in > span{animation:moFade var(--mo-el) var(--mo-out) .35s both!important}
+.mo .st [data-mo="slide"].in{animation:moSlideL var(--mo-section) var(--mo-ease) .5s both!important}
+.mo .in.mo-done{animation:none!important;clip-path:none!important;opacity:1!important}
+.mo .in.mo-done > span{animation:none!important;opacity:1!important}
+.mo .st .in.mo-done,.mo .st .in.mo-done > span{animation:none!important}
+
+/* ---- статистика: лічильник + червона лінія-прогрес ---- */
+.ab-hv [style*="min-height:240px"]{position:relative}
+.ab-hv [style*="min-height:240px"] b{font-variant-numeric:tabular-nums}
+.mo-line{position:absolute;left:0;right:0;top:0;height:2px;background:#e22121;transform-origin:left;transform:scaleX(0);pointer-events:none}
+.mo-plus{display:inline-block;opacity:0;transform:translateY(8px);transition:opacity var(--mo-micro) var(--mo-out),transform var(--mo-el) var(--mo-ease)}
+.mo-plus.on{opacity:1;transform:none}
+
+/* ---- дужки з плюсом: варіант «Креслення» ---- */
+svg.c path{stroke-dasharray:12;stroke-dashoffset:0;transition:stroke-dashoffset .5s var(--mo-ease),stroke var(--mo-micro)}
+summary:hover svg.c path,details[open] > summary svg.c path{stroke:#e22121}
+summary:hover svg.c path{stroke-dashoffset:24}
+.brk-s{position:relative;width:40px;height:40px;flex:none;display:grid;place-items:center;color:#272727}
+.brk-s svg.c{position:absolute;inset:0;width:40px;height:40px;overflow:visible}
+.brk-s svg.plus{width:24px!important;height:24px!important;padding:0!important;background:none!important}
+
+/* ---- технології: плитки хвилею під час перемикання вкладки ---- */
+.tk-grid.mo-swap .tl-tile{animation:moRise var(--mo-el) var(--mo-ease) both;animation-delay:calc(var(--i,0) * 30ms)}
+
+/* ---- поля форми: червона лінія фокусу креслиться зліва ---- */
+.fl input,.fl textarea,.qf input,.dd-btn{background-image:linear-gradient(#e22121,#e22121)!important;background-size:0 2px!important;background-repeat:no-repeat!important;background-position:0 100%!important;transition:background-size var(--mo-el) var(--mo-ease),background-color var(--mo-micro)!important}
+.fl input:focus,.fl textarea:focus,.qf input:focus,.dd.open .dd-btn{background-size:100% 2px!important;border-bottom-color:transparent!important}
+
+/* ---- лінія прогресу читання ---- */
+.mo-progress{position:fixed;left:0;right:0;top:0;height:2px;background:#e22121;transform-origin:left;transform:scaleX(0);z-index:100;pointer-events:none}
+
+/* ---- менше руху ---- */
+@media (prefers-reduced-motion:reduce){
+  svg.c path,.mo-plus,.fl input,.fl textarea,.qf input,.dd-btn{transition:none!important}
+  .tk-grid.mo-swap .tl-tile{animation:none}
+}
